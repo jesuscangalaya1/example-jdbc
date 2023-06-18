@@ -1,8 +1,8 @@
-package com.crud.util;
+package com.crud.util.constants;
 
-public final class JdbcConstants {
+public final class ProductJdbcConstants {
 
-    private JdbcConstants() {}
+    private ProductJdbcConstants() {}
 
     //  QUERYS LIST JDBC..
 
@@ -28,8 +28,8 @@ public final class JdbcConstants {
 
     public static final String GET_BY_ID_PRODUCT_SQL =
             """
-                  SELECT p.id, p.name, p.price, p.description, c.id as category_id, c.name as category_name 
-                           FROM Producto p INNER JOIN Categoria c ON p.category_id = c.id 
+                  SELECT p.id, p.name, p.price, p.description, c.id as category_id, c.name as category_name
+                           FROM Producto p INNER JOIN Categoria c ON p.category_id = c.id
                            WHERE p.id = ?
                            AND p.deleted = false
             """;

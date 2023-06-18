@@ -2,6 +2,9 @@ package com.crud.controller;
 
 import java.util.List;
 
+import com.crud.dtos.request.ProductRequest;
+import com.crud.dtos.response.ProductResponse;
+import com.crud.services.servicejdbc.CategoryServiceJDBC;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,8 +28,8 @@ import com.crud.util.AppConstants;
 
 import lombok.RequiredArgsConstructor;
 
-import static com.crud.util.AppConstants.MESSAGE_ID_CATEGORY;
-import static com.crud.util.AppConstants.SUCCESS;
+import static com.crud.util.AppConstants.*;
+import static com.crud.util.AppConstants.MESSAGE_ID_PRODUCT;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,8 +38,58 @@ import static com.crud.util.AppConstants.SUCCESS;
 public class CategoryController {
 
         private final CategoryService categoryService;
+        private final CategoryServiceJDBC categoryServiceJDBC;
         private final CategoryHateoasConfig categoryHateoasConfig;
 
+        // jdbc ..
+
+        @GetMapping(value = "/jdbc", produces = MediaType.APPLICATION_JSON_VALUE)
+        public RestResponse<List<CategoryResponse>> getAllCategoryJDBC() {
+                return new  RestResponse<>(SUCCESS,
+                        String.valueOf(HttpStatus.OK),
+                        "PRODUCT SUCCESSFULLY READED",
+                        categoryServiceJDBC.getAllCategoryJDBC());
+        }
+
+        @PostMapping(value = "/jdbc", produces = MediaType.APPLICATION_JSON_VALUE)
+        public RestResponse<CategoryResponse> createProductJDBC(@RequestBody CategoryRequest categoryRequest){
+                return new RestResponse<>(SUCCESS,
+                        String.valueOf(HttpStatus.CREATED),
+                        "PRODUCT SUCCESSFULLY CREATED",
+                        categoryServiceJDBC.createCategory(categoryRequest));
+        }
+
+        @PutMapping(value = "/jdbc/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+        public RestResponse<CategoryResponse> updatedProductJDBC(@PathVariable Long id, @RequestBody CategoryRequest categoryRequest) {
+                return new RestResponse<>(SUCCESS,
+                        String.valueOf(HttpStatus.OK),
+                        MESSAGE_ID_PRODUCT + id + " SUCCESSFULLY UPDATED",
+                        categoryServiceJDBC.updatedCategory(id, categoryRequest));
+        }
+
+        @GetMapping(value = "/jdbc/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+        public RestResponse<CategoryResponse> getProductByIdJDBC(@PathVariable Long id) {
+                return new RestResponse<>(SUCCESS,
+                        String.valueOf(HttpStatus.OK),
+                        MESSAGE_ID_PRODUCT + id + " SUCCESSFULLY READED",
+                        categoryServiceJDBC.getByIdCategoryJDBC(id));
+        }
+
+
+        @DeleteMapping("/jdbc/{id}")
+        public RestResponse<String> deleteProductJDBC(@PathVariable Long id) {
+                categoryServiceJDBC.deleteByIdCategoryJDBC(id);
+                return new RestResponse<>(SUCCESS,
+                        String.valueOf(HttpStatus.OK),
+                        MESSAGE_ID_PRODUCT + id + " SUCCESSFULLY DELETED",
+                        "null"); // Data null.
+        }
+
+
+
+
+
+        // hibernate ..
         @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
         public ResponseEntity<List<CategoryResponse>> listCategories() {
 
@@ -74,5 +127,7 @@ public class CategoryController {
                                 MESSAGE_ID_CATEGORY + id + " SUCCESSFULLY DELETED",
                                 "null"); // Data null.
         }
+
+
 
 }

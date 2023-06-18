@@ -16,7 +16,7 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
 
-import static com.crud.util.JdbcConstants.*;
+import static com.crud.util.constants.ProductJdbcConstants.*;
 
 @Repository
 @RequiredArgsConstructor
