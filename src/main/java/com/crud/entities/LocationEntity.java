@@ -8,6 +8,8 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @NoArgsConstructor
@@ -29,6 +31,10 @@ public class LocationEntity {
 
     @Column(name = "pais")
     private String country;
+
+    @OneToMany(mappedBy = "location", cascade = CascadeType.REMOVE)
+    private List<ItineraryEntity> itineraries = new ArrayList<>();
+
 
     @Column(columnDefinition = "BOOLEAN NOT NULL DEFAULT '0'")
     private boolean deleted;

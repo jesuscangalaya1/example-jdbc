@@ -3,7 +3,6 @@ package com.crud.dtos.response;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.hateoas.Link;
 
 import java.io.Serializable;
 

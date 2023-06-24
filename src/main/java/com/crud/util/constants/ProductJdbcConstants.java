@@ -45,8 +45,6 @@ public final class ProductJdbcConstants {
     public static final String DELETED_BY_ID_PRODUCTS_SQL =
             """
                 UPDATE Producto SET deleted = true WHERE id = ?
-                                 
-                             
             """;
 
 

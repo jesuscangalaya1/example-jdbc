@@ -2,29 +2,19 @@ package com.crud.controller;
 
 import java.util.List;
 
-import com.crud.dtos.request.ProductRequest;
-import com.crud.dtos.response.ProductResponse;
+
+import com.crud.dtos.response.PageableResponse;
+import com.crud.repositories.jdbc.CategoryRepositoryJDBC;
 import com.crud.services.servicejdbc.CategoryServiceJDBC;
-import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.crud.config.hateoas.CategoryHateoasConfig;
 import com.crud.dtos.request.CategoryRequest;
 import com.crud.dtos.response.CategoryResponse;
 import com.crud.dtos.response.RestResponse;
 import com.crud.services.CategoryService;
-import com.crud.util.AppConstants;
 
 import lombok.RequiredArgsConstructor;
 
@@ -39,11 +29,23 @@ public class CategoryController {
 
         private final CategoryService categoryService;
         private final CategoryServiceJDBC categoryServiceJDBC;
-        private final CategoryHateoasConfig categoryHateoasConfig;
-
         // jdbc ..
 
-        @GetMapping(value = "/jdbc", produces = MediaType.APPLICATION_JSON_VALUE)
+        @GetMapping("pagination-jdbc")
+        public RestResponse<PageableResponse<CategoryResponse>> getAllCategories(
+                @RequestParam(value = "pageNo", defaultValue = "1") int pageNumber,
+                @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+
+                return new  RestResponse<>(SUCCESS,
+                        String.valueOf(HttpStatus.OK),
+                        "PRODUCT SUCCESSFULLY READED",
+                        categoryServiceJDBC.getAllPaginationCategoryJDBC(pageNumber, pageSize));
+
+        }
+
+
+
+                @GetMapping(value = "/jdbc", produces = MediaType.APPLICATION_JSON_VALUE)
         public RestResponse<List<CategoryResponse>> getAllCategoryJDBC() {
                 return new  RestResponse<>(SUCCESS,
                         String.valueOf(HttpStatus.OK),
@@ -90,7 +92,7 @@ public class CategoryController {
 
 
         // hibernate ..
-        @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+        /*@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
         public ResponseEntity<List<CategoryResponse>> listCategories() {
 
                 return new ResponseEntity<>(categoryService.listCategories(), HttpStatus.OK);
@@ -102,21 +104,21 @@ public class CategoryController {
         }
 
         @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-        public RestResponse<EntityModel<CategoryResponse>> createCategory(
+        public RestResponse<CategoryResponse> createCategory(
                         @RequestBody CategoryRequest categoryRequest) {
                 return new RestResponse<>(SUCCESS,
                                 String.valueOf(HttpStatus.CREATED),
                                 "CATEGORY SUCCESSFULLY CREATED",
-                                categoryHateoasConfig.toModel(categoryService.createCategory(categoryRequest)));
+                                categoryService.createCategory(categoryRequest));
         }
 
         @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-        public RestResponse<EntityModel<CategoryResponse>> updatedCategory(@PathVariable Long id,
+        public RestResponse<CategoryResponse> updatedCategory(@PathVariable Long id,
                         @RequestBody CategoryRequest categoryRequest) {
                 return new RestResponse<>(SUCCESS,
                                 String.valueOf(HttpStatus.OK),
                                 MESSAGE_ID_CATEGORY + id + " SUCCESSFULLY UPDATED",
-                                categoryHateoasConfig.toModel(categoryService.updateCategory(id, categoryRequest)));
+                                categoryService.updateCategory(id, categoryRequest));
         }
 
         @DeleteMapping("/{id}")
@@ -128,6 +130,6 @@ public class CategoryController {
                                 "null"); // Data null.
         }
 
-
+*/
 
 }

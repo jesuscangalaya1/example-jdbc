@@ -10,7 +10,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -35,15 +34,14 @@ public class ItineraryEntity {
     private LocalDate arrivalDate;
 
     @Column(name = "hora")
-    @DateTimeFormat(pattern = "HH:mm")
-    private LocalTime hour;
+    private String hour;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "origen_id", nullable = false)
+    @JoinColumn(name = "origen_id", nullable = false, referencedColumnName = "id")
     private OriginEntity origin;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "destino_id", nullable = false)
+    @JoinColumn(name = "destino_id", nullable = false, referencedColumnName = "id")
     private LocationEntity location;
 
 

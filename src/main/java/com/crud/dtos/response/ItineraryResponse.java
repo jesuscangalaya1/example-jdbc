@@ -1,6 +1,8 @@
 package com.crud.dtos.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -9,6 +11,8 @@ import java.time.LocalTime;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ItineraryResponse {
 
     private Long id;
@@ -19,8 +23,7 @@ public class ItineraryResponse {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate arrivalDate;
 
-    @DateTimeFormat(pattern = "HH:mm")
-    private LocalTime hour;
+    private String hour;
 
     private OriginResponse origin;
     private LocationResponse location;

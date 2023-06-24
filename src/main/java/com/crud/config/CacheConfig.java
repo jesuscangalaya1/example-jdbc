@@ -19,7 +19,12 @@ public class CacheConfig {
         SimpleCacheManager cacheManager = new SimpleCacheManager();
         cacheManager.setCaches(Arrays.asList(
                 new ConcurrentMapCache("Producto"),
-                new ConcurrentMapCache("Categoria")
+                new ConcurrentMapCache("Categoria"),
+                new ConcurrentMapCache("itinerario"),
+                new ConcurrentMapCache("origen"),
+                new ConcurrentMapCache("destino"),
+                new ConcurrentMapCache("compras"),
+                new ConcurrentMapCache("vuelo")
         ));
         return cacheManager;
     }

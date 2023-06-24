@@ -24,9 +24,50 @@ public class CategoryRepositoryJDBC {
 
     private final JdbcTemplate jdbcTemplate;
 
+    public long getCountOfCategories() {
+        String countQuery = "SELECT COUNT(*) FROM Categoria WHERE deleted = false";
+        Long count = jdbcTemplate.queryForObject(countQuery, (rs, rowNum) -> rs.getLong(1));
+        return count != null ? count : 0L;
+    }
+
+    public List<CategoryResponse> getPaginatedCategories(int offset, int pageSize) {
+        String selectQuery = """
+            SELECT c.id,
+                   c.name
+            FROM Categoria c
+            WHERE c.deleted = false
+            ORDER BY c.id ASC
+            OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+            """;
+        return jdbcTemplate.query(selectQuery, ps -> {
+            ps.setInt(1, offset);
+            ps.setInt(2, pageSize);
+        }, new CategoryMapperJDBC());
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public List<CategoryResponse> getAllCategoryJDBC() {
         return jdbcTemplate.query(SELECT_CATEGORIES_SQL, new CategoryMapperJDBC());
     }
+
+
+
 
     public CategoryResponse getByIdCategoryJDBC(Long id) {
         if (id == null || id <= 0) {

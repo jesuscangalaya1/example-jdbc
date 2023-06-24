@@ -1,11 +1,17 @@
 package com.crud.dtos.request;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.io.Serializable;
 
 @Getter
 @Setter
-public class LocationRequest {
+@AllArgsConstructor
+@NoArgsConstructor
+public class LocationRequest  implements Serializable {
     private String city;
     private String country;
 }
